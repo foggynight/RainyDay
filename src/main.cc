@@ -1,10 +1,16 @@
-#include <chrono>
-#include <cstdlib>
-
 #define OLC_PGE_APPLICATION
 #include "olcPixelGameEngine.h"
 
+#include <chrono>
+#include <cstdlib>
+
+#include "globals.cc"
+#include "Raindrop.hh"
+
 class Rain : public olc::PixelGameEngine {
+public:
+	Raindrop drop_array[1];
+
 public:
 	Rain() {
 		sAppName = "Rain";
@@ -18,6 +24,11 @@ public:
 	}
 
 	bool OnUserUpdate(float delta) override {
+		Clear(olc::BLACK);
+		for (auto &drop : drop_array) {
+			Draw(drop.pos.x, drop.pos.y);
+			drop.step(delta);
+		}
 		return true;
 	}
 
@@ -28,7 +39,7 @@ public:
 
 int main() {
 	Rain rain;
-	if (rain.Construct(256, 240, 4, 4))
+	if (rain.Construct(screen_w, screen_h, pixel_w, pixel_h))
 		rain.Start();
 
 	return 0;

@@ -8,20 +8,19 @@
 class Raindrop {
 public:
 	Point pos;
-	int speed;
-	int acc;
+	float speed;
+	float acc;
 
 public:
-	Raindrop(
-		Point pos = Point(),
-		int speed = 0,
-		int acc = 0
-	) : pos(pos), speed(speed), acc(acc) {}
+	Raindrop();
 
 	/** 
-	 * Increase the y position by the speed value.
+	 * Increase the y position by the speed value, and
+	 * increase the speed by the acceleration value.
+	 *
+	 * @param delta - Elapsed time since previous step
 	 */
-	void step();
+	void step(float delta);
 
 	/**
 	 * Reset the raindrop:
