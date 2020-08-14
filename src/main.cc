@@ -3,17 +3,24 @@
 
 #include <chrono>
 #include <cstdlib>
+#include <vector>
 
 #include "globals.cc"
 #include "Raindrop.hh"
 
 class Rain : public olc::PixelGameEngine {
 public:
-	Raindrop drop_array[1];
+	std::vector<Raindrop> raindrop_vec;
+	int option_raindrops;
+	float cooldown;
 
 public:
 	Rain() {
 		sAppName = "Rain";
+
+		raindrop_vec.reserve(max_raindrops);
+		option_raindrops = default_raindrops;
+		cooldown = 0.0F;
 	}
 
 	bool OnUserCreate() override {
@@ -24,10 +31,17 @@ public:
 	}
 
 	bool OnUserUpdate(float delta) override {
+		cooldown += delta;
+		if (cooldown >= 0.3F && raindrop_vec.size() < option_raindrops) {
+			raindrop_vec.push_back(Raindrop());
+			raindrop_vec.push_back(Raindrop());
+			cooldown = 0;
+		}
+
 		Clear(olc::BLACK);
-		for (auto &drop : drop_array) {
-			Draw(drop.pos.x, drop.pos.y);
-			drop.step(delta);
+		for (auto &raindrop : raindrop_vec) {
+			Draw(raindrop.pos.x, raindrop.pos.y, olc::GREEN);
+			raindrop.step(delta);
 		}
 		return true;
 	}

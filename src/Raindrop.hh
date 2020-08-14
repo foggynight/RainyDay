@@ -10,6 +10,7 @@ public:
 	Point pos;
 	float speed;
 	float acc;
+	
 
 public:
 	Raindrop();
