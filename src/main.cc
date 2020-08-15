@@ -16,7 +16,7 @@ public:
 
 public:
 	Rain() {
-		sAppName = "Rain";
+		sAppName = "rainyday";
 
 		raindrop_vec.reserve(max_raindrops);
 		option_raindrops = default_raindrops;
