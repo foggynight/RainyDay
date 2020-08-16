@@ -17,6 +17,14 @@ repo_path=$(pwd)
 ln -s "$repo_path"/rainyday /usr/local/bin/rainyday
 ```
 
+## Controls
+
+`UP/DOWN` - Increase or decrease the number of raindrops
+
+`RIGHT/LEFT` - Increase or decrease the raindrop acceleration
+
+`1/2/3` - Swap between raindrop colors
+
 ## Dependencies
 
 1. GNU C++ Compiler

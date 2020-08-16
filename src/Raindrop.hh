@@ -10,7 +10,6 @@ public:
 	Point pos;
 	float speed;
 	float acc;
-	
 
 public:
 	Raindrop();
@@ -20,8 +19,9 @@ public:
 	 * increase the speed by the acceleration value.
 	 *
 	 * @param delta - Elapsed time since previous step
+	 * @param acc - Acceleration of the raindrop
 	 */
-	void step(float delta);
+	void step(float delta, float acc);
 
 	/**
 	 * Reset the raindrop:

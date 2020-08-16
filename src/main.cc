@@ -11,37 +11,75 @@
 class Rain : public olc::PixelGameEngine {
 public:
 	std::vector<Raindrop> raindrop_vec;
-	int option_raindrops;
-	float cooldown;
+	std::vector<olc::Pixel> color_vec;
+
+	int option_raindrops; // number of raindrops to render
+	double option_acceleration; // raindrop acceleration
+	int option_color; // raindrop color
+	float cooldown; // cooldown between adding or removing a raindrop
 
 public:
 	Rain() {
 		sAppName = "rainyday";
-
-		raindrop_vec.reserve(max_raindrops);
-		option_raindrops = default_raindrops;
-		cooldown = 0.0F;
 	}
 
 	bool OnUserCreate() override {
 		auto duration = std::chrono::system_clock::now().time_since_epoch();
 		srand(std::chrono::duration_cast<std::chrono::milliseconds>(duration).count());
 
+		raindrop_vec.reserve(max_raindrops);
+
+		color_vec.push_back(olc::RED);
+		color_vec.push_back(olc::GREEN);
+		color_vec.push_back(olc::BLUE);
+
+		option_raindrops = default_raindrops;
+		option_acceleration = default_acceleration;
+		option_color = 0;
+		cooldown = 0.0F;
+
 		return true;
 	}
 
 	bool OnUserUpdate(float delta) override {
+		if (option_raindrops < max_raindrops
+		 && GetKey(olc::Key::UP).bHeld) {
+			++option_raindrops;
+		} else if (option_raindrops > 0
+		 && GetKey(olc::Key::DOWN).bHeld) {
+			--option_raindrops;
+		}
+
+		if (option_acceleration <= max_acceleration - 5.0F
+		 && GetKey(olc::Key::RIGHT).bHeld) {
+			option_acceleration += 5.0F;
+		} else if (option_acceleration > 5.0F
+		 && GetKey(olc::Key::LEFT).bHeld) {
+			option_acceleration -= 5.0F;
+		}
+
+		if (GetKey(olc::Key::K1).bHeld) {
+			option_color = 0;
+		} else if (GetKey(olc::Key::K2).bHeld) {
+			option_color = 1;
+		} else if (GetKey(olc::Key::K3).bHeld) {
+			option_color = 2;
+		}
+
 		cooldown += delta;
-		if (cooldown >= 0.3F && raindrop_vec.size() < option_raindrops) {
-			raindrop_vec.push_back(Raindrop());
-			raindrop_vec.push_back(Raindrop());
+		if (cooldown >= default_cooldown) {
+			if (raindrop_vec.size() < option_raindrops) {
+				raindrop_vec.push_back(Raindrop());
+			} else if (raindrop_vec.size() > option_raindrops) {
+				raindrop_vec.pop_back();
+			}
 			cooldown = 0;
 		}
 
 		Clear(olc::BLACK);
 		for (auto &raindrop : raindrop_vec) {
-			Draw(raindrop.pos.x, raindrop.pos.y, olc::GREEN);
-			raindrop.step(delta);
+			Draw(raindrop.pos.x, raindrop.pos.y, color_vec[option_color]);
+			raindrop.step(delta, option_acceleration);
 		}
 		return true;
 	}
