@@ -42,6 +42,25 @@ public:
 	}
 
 	bool OnUserUpdate(float delta) override {
+		get_options();
+		update_raindrop_vec(delta);
+
+		Clear(olc::BLACK);
+		for (auto &raindrop : raindrop_vec) {
+			Draw(raindrop.pos.x, raindrop.pos.y, color_vec[option_color]);
+
+			float offset = rand()%acceleration_offset - acceleration_offset/3;
+			raindrop.step(delta, option_acceleration + offset);
+		}
+
+		return true;
+	}
+
+	bool OnUserDestroy() override {
+		return true;
+	}
+
+	void get_options() {
 		if (option_raindrops < max_raindrops
 		 && GetKey(olc::Key::UP).bHeld) {
 			++option_raindrops;
@@ -65,9 +84,10 @@ public:
 		} else if (GetKey(olc::Key::K3).bHeld) {
 			option_color = 2;
 		}
+	}
 
-		cooldown += delta;
-		if (cooldown >= default_cooldown) {
+	void update_raindrop_vec(float delta) {
+		if ((cooldown += delta) >= default_cooldown) {
 			if (raindrop_vec.size() < option_raindrops) {
 				raindrop_vec.push_back(Raindrop());
 			} else if (raindrop_vec.size() > option_raindrops) {
@@ -75,17 +95,6 @@ public:
 			}
 			cooldown = 0;
 		}
-
-		Clear(olc::BLACK);
-		for (auto &raindrop : raindrop_vec) {
-			Draw(raindrop.pos.x, raindrop.pos.y, color_vec[option_color]);
-			raindrop.step(delta, option_acceleration);
-		}
-		return true;
-	}
-
-	bool OnUserDestroy() override {
-		return true;
 	}
 };
 

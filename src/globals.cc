@@ -12,6 +12,7 @@ const int max_raindrops = 300;
 
 const float default_acceleration = 981.0F;
 const float max_acceleration = 10000.0F;
+const int acceleration_offset = 200;
 
 const float default_cooldown = 0.1F;
 
