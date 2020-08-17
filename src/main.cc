@@ -48,9 +48,7 @@ public:
 		Clear(olc::BLACK);
 		for (auto &raindrop : raindrop_vec) {
 			Draw(raindrop.pos.x, raindrop.pos.y, color_vec[option_color]);
-
-			float offset = rand()%acceleration_offset - acceleration_offset/3;
-			raindrop.step(delta, option_acceleration + offset);
+			raindrop.step(delta, option_acceleration);
 		}
 
 		return true;
