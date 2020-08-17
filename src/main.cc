@@ -13,10 +13,10 @@ public:
 	std::vector<Raindrop> raindrop_vec;
 	std::vector<olc::Pixel> color_vec;
 
-	int option_raindrops; // number of raindrops to render
-	double option_acceleration; // raindrop acceleration
-	int option_color; // raindrop color
-	float cooldown; // cooldown between adding or removing a raindrop
+	int option_raindrops; // Number of raindrops to render.
+	double option_acceleration; // Acceleration of the raindrops.
+	int option_color; // Color of the raindrops.
+	float cooldown; // Seconds between adding or removing a raindrop.
 
 public:
 	Rain() {
