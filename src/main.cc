@@ -13,10 +13,13 @@ public:
 	std::vector<Raindrop> raindrop_vec;
 	std::vector<olc::Pixel> color_vec;
 
-	int option_raindrops; // Number of raindrops to render.
-	double option_acceleration; // Acceleration of the raindrops.
-	int option_color; // Color of the raindrops.
-	float cooldown; // Seconds between adding or removing a raindrop.
+	struct {
+		bool display_ui; // Display user interface.
+		int raindrops; // Number of raindrops to render.
+		double acceleration; // Acceleration of the raindrops.
+		int color; // Color of the raindrops.
+		float cooldown; // Seconds between adding or removing a raindrop.
+	} options;
 
 public:
 	Rain() {
@@ -33,22 +36,27 @@ public:
 		color_vec.push_back(olc::GREEN);
 		color_vec.push_back(olc::BLUE);
 
-		option_raindrops = default_raindrops;
-		option_acceleration = default_acceleration;
-		option_color = 0;
-		cooldown = 0.0F;
+		options.display_ui = false;
+		options.raindrops = default_raindrops;
+		options.acceleration = default_acceleration;
+		options.color = 0;
+		options.cooldown = 0.0F;
 
 		return true;
 	}
 
 	bool OnUserUpdate(float delta) override {
-		get_options();
+		get_input();
 		update_raindrop_vec(delta);
 
 		Clear(olc::BLACK);
 		for (auto &raindrop : raindrop_vec) {
-			Draw(raindrop.pos.x, raindrop.pos.y, color_vec[option_color]);
-			raindrop.step(delta, option_acceleration);
+			Draw((int)raindrop.pos.x, (int)raindrop.pos.y, color_vec[options.color]);
+			raindrop.step(delta, options.acceleration);
+		}
+
+		if (options.display_ui) {
+			FillRect(0, ScreenHeight()-1, ScreenWidth(), 1);
 		}
 
 		return true;
@@ -58,40 +66,44 @@ public:
 		return true;
 	}
 
-	void get_options() {
-		if (option_raindrops < max_raindrops
+	void get_input() {
+		if (GetKey(olc::SPACE).bPressed) {
+			options.display_ui = (options.display_ui) ? false : true;
+		}
+
+		if (options.raindrops < max_raindrops
 		 && GetKey(olc::Key::UP).bHeld) {
-			++option_raindrops;
-		} else if (option_raindrops > 0
+			++options.raindrops;
+		} else if (options.raindrops > 0
 		 && GetKey(olc::Key::DOWN).bHeld) {
-			--option_raindrops;
+			--options.raindrops;
 		}
 
-		if (option_acceleration <= max_acceleration - 5.0F
+		if (options.acceleration <= max_acceleration - 5.0F
 		 && GetKey(olc::Key::RIGHT).bHeld) {
-			option_acceleration += 5.0F;
-		} else if (option_acceleration > 5.0F
+			options.acceleration += 5.0F;
+		} else if (options.acceleration > 5.0F
 		 && GetKey(olc::Key::LEFT).bHeld) {
-			option_acceleration -= 5.0F;
+			options.acceleration -= 5.0F;
 		}
 
-		if (GetKey(olc::Key::K1).bHeld) {
-			option_color = 0;
-		} else if (GetKey(olc::Key::K2).bHeld) {
-			option_color = 1;
-		} else if (GetKey(olc::Key::K3).bHeld) {
-			option_color = 2;
+		if (GetKey(olc::Key::K1).bPressed) {
+			options.color = 0;
+		} else if (GetKey(olc::Key::K2).bPressed) {
+			options.color = 1;
+		} else if (GetKey(olc::Key::K3).bPressed) {
+			options.color = 2;
 		}
 	}
 
 	void update_raindrop_vec(float delta) {
-		if ((cooldown += delta) >= default_cooldown) {
-			if (raindrop_vec.size() < option_raindrops) {
+		if ((options.cooldown += delta) >= default_cooldown) {
+			if (raindrop_vec.size() < options.raindrops) {
 				raindrop_vec.push_back(Raindrop());
-			} else if (raindrop_vec.size() > option_raindrops) {
+			} else if (raindrop_vec.size() > options.raindrops) {
 				raindrop_vec.pop_back();
 			}
-			cooldown = 0;
+			options.cooldown = 0;
 		}
 	}
 };
