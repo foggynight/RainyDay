@@ -3,6 +3,8 @@
 
 #include <chrono>
 #include <cstdlib>
+#include <sstream>
+#include <string>
 #include <vector>
 
 #include "globals.cc"
@@ -51,18 +53,15 @@ public:
 
 		Clear(olc::BLACK);
 		for (auto &raindrop : raindrop_vec) {
+			Draw((int)raindrop.pos.x, (int)(raindrop.pos.y-1), color_vec[options.color]);
 			Draw((int)raindrop.pos.x, (int)raindrop.pos.y, color_vec[options.color]);
 			raindrop.step(delta, options.acceleration);
 		}
 
 		if (options.display_ui) {
-			FillRect(0, ScreenHeight()-1, ScreenWidth(), 1);
+			draw_ui();
 		}
 
-		return true;
-	}
-
-	bool OnUserDestroy() override {
 		return true;
 	}
 
@@ -105,6 +104,35 @@ public:
 			}
 			options.cooldown = 0;
 		}
+	}
+
+	void draw_ui() {
+		std::ostringstream text;
+		text << "Number of Drops: " << options.raindrops;
+		DrawString(2, ScreenHeight()-9, text.str());
+
+		text.clear();
+		text.str(std::string());
+		text << "Acceleration: " << options.acceleration;
+		DrawString(200, ScreenHeight()-9, text.str());
+
+		std::string color;
+		switch (options.color) {
+			case 0:
+				color.assign("Red", 3);
+				break;
+			case 1:
+				color.assign("Green", 5);
+				break;
+			case 2:
+				color.assign("Blue", 4);
+				break;
+		}
+
+		text.clear();
+		text.str(std::string());
+		text << "Color: " << color;
+		DrawString(376, ScreenHeight()-9, text.str());
 	}
 };
 

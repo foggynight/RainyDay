@@ -19,6 +19,8 @@ ln -s "$repo_path"/rainyday /usr/local/bin/rainyday
 
 ## Controls
 
+`SPACE` - Toggle the user interface
+
 `UP/DOWN` - Increase or decrease the number of raindrops
 
 `RIGHT/LEFT` - Increase or decrease the raindrop acceleration
