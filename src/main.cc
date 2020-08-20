@@ -25,7 +25,7 @@ public:
 
 public:
 	Rain() {
-		sAppName = "rainyday";
+		sAppName = "RainyDay";
 	}
 
 	bool OnUserCreate() override {
@@ -96,7 +96,7 @@ public:
 	}
 
 	void update_raindrop_vec(float delta) {
-		if ((options.cooldown += delta) >= default_cooldown) {
+		if ((options.cooldown += delta) >= max_cooldown) {
 			if (raindrop_vec.size() < options.raindrops) {
 				raindrop_vec.push_back(Raindrop());
 			} else if (raindrop_vec.size() > options.raindrops) {

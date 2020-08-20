@@ -1,20 +1,17 @@
-# rainyday
+# RainyDay
 
 Rain simulation, built for a rainy day.
 
 ## Installation
 
 1. Compile using the build.sh script
-
 ```
 ./build.sh
 ```
 
 2. To run rainyday from anywhere, create a symlink
-
 ```
-repo_path=$(pwd)
-ln -s "$repo_path"/rainyday /usr/local/bin/rainyday
+ln -s $(pwd)/rainyday /usr/local/bin/rainyday
 ```
 
 ## Controls
