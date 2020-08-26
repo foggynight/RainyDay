@@ -1,8 +1,8 @@
 #include <chrono>
 #include <cstdlib>
 
-#include "globals.cc"
-#include "Raindrop.hh"
+#include "globals.cpp"
+#include "Raindrop.h"
 
 Raindrop::Raindrop() {
 	pos = Point(rand() % screen_w);

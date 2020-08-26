@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Point.hh"
+#include "Point.h"
 
 /**
  * Raindrop represented by a pixel.
