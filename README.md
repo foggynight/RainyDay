@@ -1,6 +1,6 @@
-# RainyDay
+# rainy-day
 
-Rain simulation, built for a rainy day.
+Interactive rain simulation, built for a rainy day.
 
 ## Installation
 
