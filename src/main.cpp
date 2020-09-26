@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-#include "globals.cpp"
+#include "globals.h"
 #include "Raindrop.h"
 
 class Rain : public olc::PixelGameEngine {

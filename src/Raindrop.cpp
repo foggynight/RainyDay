@@ -1,7 +1,7 @@
 #include <chrono>
 #include <cstdlib>
 
-#include "globals.cpp"
+#include "globals.h"
 #include "Raindrop.h"
 
 Raindrop::Raindrop() {
