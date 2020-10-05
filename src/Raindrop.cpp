@@ -10,13 +10,9 @@ Raindrop::Raindrop()
 	speed = start_speed;
 }
 
-void Raindrop::step(float delta, float acc)
+void Raindrop::step(float acc, float delta)
 {
 	pos.y += speed * delta;
-
-	if (pos.y >= screen_h) {
-		reset();
-	}
 
 	float offset = rand()%acceleration_offset - acceleration_offset/3;
 	float new_speed = speed + (acc + offset) * delta;

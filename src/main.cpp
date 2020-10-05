@@ -3,6 +3,7 @@
 
 #include <chrono>
 #include <cstdlib>
+#include <iterator>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -12,17 +13,15 @@
 
 class Rain : public olc::PixelGameEngine
 {
-public:
+private:
 	std::vector<Raindrop> raindrop_vec;
 	std::vector<olc::Pixel> color_vec;
 
-	struct {
-		bool display_ui; // Display user interface.
-		int raindrops; // Number of raindrops to render.
-		double acceleration; // Acceleration of the raindrops.
-		int color; // Color of the raindrops.
-		float cooldown; // Seconds between adding or removing a raindrop.
-	} options;
+	bool display_ui;     // Display user interface.
+	int raindrops;       // Number of raindrops to render.
+	double acceleration; // Acceleration of the raindrops.
+	int color;           // Color of the raindrops.
+	float cooldown;      // Seconds between adding or removing a raindrop.
 
 public:
 	Rain()
@@ -41,11 +40,11 @@ public:
 		color_vec.push_back(olc::GREEN);
 		color_vec.push_back(olc::BLUE);
 
-		options.display_ui = false;
-		options.raindrops = default_raindrops;
-		options.acceleration = default_acceleration;
-		options.color = 0;
-		options.cooldown = 0.0F;
+		display_ui = false;
+		raindrops = default_raindrops;
+		acceleration = default_acceleration;
+		color = 0;
+		cooldown = 0.0F;
 
 		return true;
 	}
@@ -53,97 +52,106 @@ public:
 	bool OnUserUpdate(float delta) override
 	{
 		get_input();
-		update_raindrop_vec(delta);
+		cooldown += delta;
 
 		Clear(olc::BLACK);
-		for (auto &raindrop : raindrop_vec) {
-			Draw((int)raindrop.pos.x, (int)(raindrop.pos.y-1), color_vec[options.color]);
-			Draw((int)raindrop.pos.x, (int)raindrop.pos.y, color_vec[options.color]);
-			raindrop.step(delta, options.acceleration);
+		for (auto iter = raindrop_vec.begin(); iter < raindrop_vec.end(); ++iter) {
+			Point pos = iter->pos;
+			Draw((int)pos.x, (int)(pos.y-1), color_vec[color]);
+			Draw((int)pos.x, (int)pos.y, color_vec[color]);
+
+			if (pos.y > screen_h) {
+				if (raindrop_vec.size() > raindrops
+				 && cooldown >= max_cooldown / 10.0F) {
+					iter = raindrop_vec.erase(iter);
+					cooldown = 0;
+				}
+				else {
+					iter->reset();
+				}
+			}
+			else {
+				iter->step(acceleration, delta);
+			}
 		}
 
-		if (options.display_ui) {
+		if (raindrop_vec.size() < raindrops) {
+			if (cooldown >= max_cooldown) {
+				raindrop_vec.push_back(Raindrop());
+				cooldown = 0;
+			}
+		}
+
+		if (display_ui) {
 			draw_ui();
 		}
 
 		return true;
 	}
 
+private:
 	void get_input()
 	{
 		if (GetKey(olc::SPACE).bPressed) {
-			options.display_ui = (options.display_ui) ? false : true;
+			display_ui = (display_ui) ? false : true;
 		}
 
-		if (options.raindrops < max_raindrops
+		if (raindrops < max_raindrops
 		 && GetKey(olc::Key::UP).bHeld) {
-			++options.raindrops;
+			++raindrops;
 		}
-		else if (options.raindrops > 0
+		else if (raindrops > 0
 		 && GetKey(olc::Key::DOWN).bHeld) {
-			--options.raindrops;
+			--raindrops;
 		}
 
-		if (options.acceleration <= max_acceleration - 5.0F
+		if (acceleration <= max_acceleration - 5.0F
 		 && GetKey(olc::Key::RIGHT).bHeld) {
-			options.acceleration += 5.0F;
+			acceleration += 5.0F;
 		}
-		else if (options.acceleration > 5.0F
+		else if (acceleration > 5.0F
 		 && GetKey(olc::Key::LEFT).bHeld) {
-			options.acceleration -= 5.0F;
+			acceleration -= 5.0F;
 		}
 
 		if (GetKey(olc::Key::K1).bPressed) {
-			options.color = 0;
+			color = 0;
 		}
 		else if (GetKey(olc::Key::K2).bPressed) {
-			options.color = 1;
+			color = 1;
 		}
 		else if (GetKey(olc::Key::K3).bPressed) {
-			options.color = 2;
-		}
-	}
-
-	void update_raindrop_vec(float delta)
-	{
-		if ((options.cooldown += delta) >= max_cooldown) {
-			if (raindrop_vec.size() < options.raindrops) {
-				raindrop_vec.push_back(Raindrop());
-			}
-			else if (raindrop_vec.size() > options.raindrops) {
-				raindrop_vec.pop_back();
-			}
-			options.cooldown = 0;
+			color = 2;
 		}
 	}
 
 	void draw_ui()
 	{
 		std::ostringstream text;
-		text << "Number of Drops: " << options.raindrops;
+		text << "Number of Drops: " << raindrops;
 		DrawString(2, ScreenHeight()-9, text.str());
 
 		text.clear();
 		text.str(std::string());
-		text << "Acceleration: " << options.acceleration;
+		text << "Acceleration: " << acceleration;
 		DrawString(200, ScreenHeight()-9, text.str());
 
-		std::string color;
-		switch (options.color) {
+		std::string color_str;
+		switch (color) {
 		case 0:
-			color.assign("Red", 3);
+			color_str.assign("Red", 3);
 			break;
 		case 1:
-			color.assign("Green", 5);
+			color_str.assign("Green", 5);
 			break;
 		case 2:
-			color.assign("Blue", 4);
+			color_str.assign("Blue", 4);
 			break;
 		}
 
 		text.clear();
 		text.str(std::string());
-		text << "Color: " << color;
+		text << "Color: " << color_str;
 		DrawString(376, ScreenHeight()-9, text.str());
 	}
 };
