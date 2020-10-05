@@ -10,7 +10,8 @@
 #include "globals.h"
 #include "Raindrop.h"
 
-class Rain : public olc::PixelGameEngine {
+class Rain : public olc::PixelGameEngine
+{
 public:
 	std::vector<Raindrop> raindrop_vec;
 	std::vector<olc::Pixel> color_vec;
@@ -24,11 +25,13 @@ public:
 	} options;
 
 public:
-	Rain() {
-		sAppName = "RainyDay";
+	Rain()
+	{
+		sAppName = "Rain";
 	}
 
-	bool OnUserCreate() override {
+	bool OnUserCreate() override
+	{
 		auto duration = std::chrono::system_clock::now().time_since_epoch();
 		srand(std::chrono::duration_cast<std::chrono::milliseconds>(duration).count());
 
@@ -47,7 +50,8 @@ public:
 		return true;
 	}
 
-	bool OnUserUpdate(float delta) override {
+	bool OnUserUpdate(float delta) override
+	{
 		get_input();
 		update_raindrop_vec(delta);
 
@@ -65,7 +69,8 @@ public:
 		return true;
 	}
 
-	void get_input() {
+	void get_input()
+	{
 		if (GetKey(olc::SPACE).bPressed) {
 			options.display_ui = (options.display_ui) ? false : true;
 		}
@@ -73,7 +78,8 @@ public:
 		if (options.raindrops < max_raindrops
 		 && GetKey(olc::Key::UP).bHeld) {
 			++options.raindrops;
-		} else if (options.raindrops > 0
+		}
+		else if (options.raindrops > 0
 		 && GetKey(olc::Key::DOWN).bHeld) {
 			--options.raindrops;
 		}
@@ -81,32 +87,38 @@ public:
 		if (options.acceleration <= max_acceleration - 5.0F
 		 && GetKey(olc::Key::RIGHT).bHeld) {
 			options.acceleration += 5.0F;
-		} else if (options.acceleration > 5.0F
+		}
+		else if (options.acceleration > 5.0F
 		 && GetKey(olc::Key::LEFT).bHeld) {
 			options.acceleration -= 5.0F;
 		}
 
 		if (GetKey(olc::Key::K1).bPressed) {
 			options.color = 0;
-		} else if (GetKey(olc::Key::K2).bPressed) {
+		}
+		else if (GetKey(olc::Key::K2).bPressed) {
 			options.color = 1;
-		} else if (GetKey(olc::Key::K3).bPressed) {
+		}
+		else if (GetKey(olc::Key::K3).bPressed) {
 			options.color = 2;
 		}
 	}
 
-	void update_raindrop_vec(float delta) {
+	void update_raindrop_vec(float delta)
+	{
 		if ((options.cooldown += delta) >= max_cooldown) {
 			if (raindrop_vec.size() < options.raindrops) {
 				raindrop_vec.push_back(Raindrop());
-			} else if (raindrop_vec.size() > options.raindrops) {
+			}
+			else if (raindrop_vec.size() > options.raindrops) {
 				raindrop_vec.pop_back();
 			}
 			options.cooldown = 0;
 		}
 	}
 
-	void draw_ui() {
+	void draw_ui()
+	{
 		std::ostringstream text;
 		text << "Number of Drops: " << options.raindrops;
 		DrawString(2, ScreenHeight()-9, text.str());
@@ -118,15 +130,15 @@ public:
 
 		std::string color;
 		switch (options.color) {
-			case 0:
-				color.assign("Red", 3);
-				break;
-			case 1:
-				color.assign("Green", 5);
-				break;
-			case 2:
-				color.assign("Blue", 4);
-				break;
+		case 0:
+			color.assign("Red", 3);
+			break;
+		case 1:
+			color.assign("Green", 5);
+			break;
+		case 2:
+			color.assign("Blue", 4);
+			break;
 		}
 
 		text.clear();
@@ -136,7 +148,8 @@ public:
 	}
 };
 
-int main() {
+int main()
+{
 	Rain rain;
 	if (rain.Construct(screen_w, screen_h, pixel_w, pixel_h))
 		rain.Start();

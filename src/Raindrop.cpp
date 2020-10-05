@@ -4,12 +4,14 @@
 #include "globals.h"
 #include "Raindrop.h"
 
-Raindrop::Raindrop() {
+Raindrop::Raindrop()
+{
 	pos = Point(rand() % screen_w);
 	speed = start_speed;
 }
 
-void Raindrop::step(float delta, float acc) {
+void Raindrop::step(float delta, float acc)
+{
 	pos.y += speed * delta;
 
 	if (pos.y >= screen_h) {
@@ -21,14 +23,16 @@ void Raindrop::step(float delta, float acc) {
 
 	if (new_speed <= 0.0F) {
 		new_speed = speed;
-	} else if (new_speed > max_speed) {
+	}
+	else if (new_speed > max_speed) {
 		new_speed = max_speed;
 	}
 
 	speed = new_speed;
 }
 
-void Raindrop::reset() {
+void Raindrop::reset()
+{
 	pos.x = rand() % screen_w;
 	pos.y = 0.0F;
 	speed = start_speed;

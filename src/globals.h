@@ -1,5 +1,3 @@
-#pragma once
-
 /* screen constants */
 extern const int screen_w;
 extern const int screen_h;
