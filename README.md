@@ -1,18 +1,14 @@
-# rainy-day
+# Rain
 
-Interactive rain simulation, built for a rainy day.
+Interactive pixel rain.
 
 
 ## Installation
 
-1. Compile using make:
+Clone the repo, then import olcPixelGameEngine and build the program using make.
 ```
-make
-```
-
-2. To run rainyday from anywhere, create a symlink:
-```
-ln -s $(pwd)/rainyday /usr/local/bin/rainyday
+git clone https://github.com/foggynight/rain.git
+cd rain && make import && make
 ```
 
 
@@ -27,7 +23,5 @@ ln -s $(pwd)/rainyday /usr/local/bin/rainyday
 ## Dependencies
 
 1. GNU C++ Compiler
-2. Various dependencies of olcPixelGameEngine:
-
-    - Linux: [Compiling on Linux](https://github.com/OneLoneCoder/olcPixelGameEngine/wiki/Compiling-on-Linux "olcPixelGameEngine Wiki")
-    - Windows: [Compiling on Windows](https://www.youtube.com/watch?v=eTGSTTxR-Ss "Youtube Tutorial")
+2. Dependencies of olcPixelGameEngine:
+[olcPixelGameEngine Wiki](https://github.com/OneLoneCoder/olcPixelGameEngine/wiki)

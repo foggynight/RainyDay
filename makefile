@@ -3,7 +3,7 @@ CFLAGS=-lX11 -lGL -lpthread -lpng -lstdc++fs -std=c++17
 
 SRCS=$(wildcard src/*.cpp)
 OBJS=$(SRCS:%.cpp=%.o)
-PROG=rainy-day
+PROG=rain
 
 all: $(OBJS)
 	$(CC) $(OBJS) -o $(PROG) $(CFLAGS)
@@ -11,10 +11,18 @@ all: $(OBJS)
 %.o: %.c
 	$(CC) -c -o $@ $< $(CFLAGS)
 
+
+.SILENT: import
+import:
+	[ ! -d "olcPixelGameEngine" ] &&\
+		git clone https://github.com/OneLoneCoder/olcPixelGameEngine;\
+	[ ! -f "src/olcPixelGameEngine.h" ] &&\
+		cp olcPixelGameEngine/olcPixelGameEngine.h src;\
+
 .PHONY: clean
 clean:
-	rm src/*.o
+	rm -f src/*.o
 
 .PHONY: uninstall
 uninstall:
-	rm src/*.o $(PROG)
+	rm -rf src/*.o src/olcPixelGameEngine.h olcPixelGameEngine $(PROG)
