@@ -1,7 +1,7 @@
 #include "globals.h"
 
-const int screen_w = 640;
-const int screen_h = 360;
+const int screen_w = 960;
+const int screen_h = 540;
 
 const int pixel_w = 2;
 const int pixel_h = 2;
