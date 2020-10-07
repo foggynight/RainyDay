@@ -1,3 +1,5 @@
+#include "olcPixelGameEngine.h"
+
 #include <chrono>
 #include <cstdlib>
 
@@ -6,7 +8,7 @@
 
 Raindrop::Raindrop()
 {
-	pos = Point(rand() % screen_w);
+	pos = olc::vi2d(rand() % screen_w, 0);
 	speed = start_speed;
 }
 

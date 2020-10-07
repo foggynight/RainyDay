@@ -56,7 +56,7 @@ public:
 
 		Clear(olc::BLACK);
 		for (auto iter = raindrop_vec.begin(); iter < raindrop_vec.end(); ++iter) {
-			Point pos = iter->pos;
+			olc::vi2d pos = iter->pos;
 			Draw((int)pos.x, (int)(pos.y-1), color_vec[color]);
 			Draw((int)pos.x, (int)pos.y, color_vec[color]);
 

@@ -1,21 +1,12 @@
-/* An x-y coordinate point. */
-class Point
-{
-public:
-	float x; // x coordinate of the point.
-	float y; // y coordinate of the point.
-
-public:
-	Point(float x = 0.0F, float y = 0.0F): x(x), y(y) {}
-};
+#include "olcPixelGameEngine.h"
 
 /* Raindrop represented by a pixel. */
 class Raindrop
 {
 public:
-	Point pos; // Position on the raindrop.
-	float speed; // Speed of the raindrop.
-	float acc; // Acceleration of the raindrop.
+	olc::vi2d pos; // Position on the raindrop.
+	float speed;   // Speed of the raindrop.
+	float acc;     // Acceleration of the raindrop.
 
 public:
 	Raindrop();
