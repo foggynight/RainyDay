@@ -16,7 +16,7 @@ void Raindrop::step(float acc, float delta)
 {
 	pos.y += speed * delta;
 
-	float offset = rand()%acceleration_offset - acceleration_offset/3;
+	float offset = rand()%acceleration_offset;
 	float new_speed = speed + (acc + offset) * delta;
 
 	if (new_speed <= 0.0F) {

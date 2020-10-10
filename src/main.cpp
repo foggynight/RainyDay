@@ -39,6 +39,8 @@ public:
 		color_vec.push_back(olc::RED);
 		color_vec.push_back(olc::GREEN);
 		color_vec.push_back(olc::BLUE);
+		color_vec.push_back(olc::YELLOW);
+		color_vec.push_back(olc::WHITE);
 
 		display_ui = false;
 		raindrops = default_raindrops;
@@ -57,12 +59,11 @@ public:
 		Clear(olc::BLACK);
 		for (auto iter = raindrop_vec.begin(); iter < raindrop_vec.end(); ++iter) {
 			olc::vi2d pos = iter->pos;
-			Draw((int)pos.x, (int)(pos.y-1), color_vec[color]);
 			Draw((int)pos.x, (int)pos.y, color_vec[color]);
 
 			if (pos.y > screen_h) {
 				if (raindrop_vec.size() > raindrops
-				 && cooldown >= max_cooldown / 10.0F) {
+				 && cooldown >= max_cooldown) {
 					iter = raindrop_vec.erase(iter);
 					cooldown = 0;
 				}
@@ -123,6 +124,13 @@ private:
 		else if (GetKey(olc::Key::K3).bPressed) {
 			color = 2;
 		}
+		else if (GetKey(olc::Key::K4).bPressed) {
+			color = 3;
+		}
+		else if (GetKey(olc::Key::K5).bPressed) {
+			color = 4;
+		}
+
 	}
 
 	void draw_ui()
@@ -146,6 +154,12 @@ private:
 			break;
 		case 2:
 			color_str.assign("Blue", 4);
+			break;
+		case 3:
+			color_str.assign("Yellow", 6);
+			break;
+		case 4:
+			color_str.assign("White", 5);
 			break;
 		}
 
