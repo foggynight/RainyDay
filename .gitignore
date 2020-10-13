@@ -8,3 +8,5 @@ src/*
 
 !src/*.h
 !src/*.cpp
+
+src/olc*.h
