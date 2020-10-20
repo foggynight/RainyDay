@@ -21,8 +21,6 @@ cd rain && make import && make
 
 ## Dependencies
 
-1. g++
-2. git
-3. make
-4. Dependencies of olcPixelGameEngine:
+- GNU C++ Compiler
+- Dependencies of olcPixelGameEngine:
 [olcPixelGameEngine Wiki](https://github.com/OneLoneCoder/olcPixelGameEngine/wiki)
