@@ -4,7 +4,7 @@ Interactive pixel rain.
 
 ## Installation
 
-```
+```bash
 git clone https://github.com/foggynight/rain.git
 cd rain
 make import
