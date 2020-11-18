@@ -1,7 +1,10 @@
-#include "olcPixelGameEngine.h"
+// SPDX-License-Identifier: GPL-2.0
+// Copyright (C) 2020 Robert Coffey
 
 #include <chrono>
 #include <cstdlib>
+
+#include "olcPixelGameEngine.h"
 
 #include "globals.h"
 #include "Raindrop.h"

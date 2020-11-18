@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: GPL-2.0
+# Copyright (C) 2020 Robert Coffey
+
 CC=g++
 CFLAGS=-lX11 -lGL -lpthread -lpng -lstdc++fs -std=c++17
 

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-2.0
+// Copyright (C) 2020 Robert Coffey
+
 /* screen constants */
 extern const int screen_w;
 extern const int screen_h;

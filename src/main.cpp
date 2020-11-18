@@ -1,5 +1,10 @@
-#define OLC_PGE_APPLICATION
-#include "olcPixelGameEngine.h"
+// SPDX-License-Identifier: GPL-2.0
+// Copyright (C) 2020 Robert Coffey
+/**
+ * --- rain ---
+ *
+ * Interactive rain simulation.
+ */
 
 #include <chrono>
 #include <cstdlib>
@@ -7,6 +12,9 @@
 #include <sstream>
 #include <string>
 #include <vector>
+
+#define OLC_PGE_APPLICATION
+#include "olcPixelGameEngine.h"
 
 #include "globals.h"
 #include "Raindrop.h"
