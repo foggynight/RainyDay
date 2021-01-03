@@ -1,6 +1,6 @@
 # rain
 
-Interactive pixel rain simulation.
+Interactive pixel rain simulation
 
 ## Installation
 
@@ -20,7 +20,8 @@ make
 
 ## Dependencies
 
-- GNU C++ compiler
+- GCC
+- Make
 - Dependencies of olcPixelGameEngine: [olcPixelGameEngine Wiki](https://github.com/OneLoneCoder/olcPixelGameEngine/wiki)
 
 ## License
