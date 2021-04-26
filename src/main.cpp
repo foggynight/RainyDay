@@ -3,7 +3,7 @@
  * Interactive rain simulation.
  *
  * Copyright (C) 2020 Robert Coffey
- * Released under the GPLv2 license
+ * Released under the GPLv2 and OLC-3 licenses
  */
 
 #include <chrono>
